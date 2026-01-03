@@ -21,13 +21,16 @@ services:
     env_file: ./.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+      - $DEBUG_LOCAL_PORT:$DEBUG_DOCKER_PORT
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url"  : "jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$POSTGRESDB_DATABASE",
         "spring.datasource.username" : "$POSTGRESDB_USER",
         "spring.datasource.password" : "$POSTGRESDB_ROOT_PASSWORD",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
+        "spring.jpa.hibernate.ddl-auto" : "update",
+        "app.bootstrap.admin.username" : "$APP_BOOTSTRAP_ADMIN_USERNAME",
+        "app.bootstrap.admin.password" : "$APP_BOOTSTRAP_ADMIN_PASSWORD"
       }'
     volumes:
       - .m2:/root/.m2
