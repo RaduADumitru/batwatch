@@ -6,9 +6,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import java.util.Collections;
-import java.util.HashSet;
-
 import static com.radud.batwatch.model.Role.USER;
 
 @Mapper(componentModel = "spring")
@@ -18,6 +15,6 @@ public interface UserMapper {
 
     @AfterMapping
     default void setRole(CreateUserRequest request, @MappingTarget AppUser appUser) {
-        appUser.setRoles(new HashSet<>(Collections.singletonList(USER)));
+        appUser.getRoles().add(USER);
     }
 }
