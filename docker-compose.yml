@@ -13,6 +13,17 @@ services:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
       - db:/var/lib/postgres
+  pgadmin:
+    image: dpage/pgadmin4:9.11.0
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
+    ports:
+      - $PGADMIN_LOCAL_PORT:$PGADMIN_DOCKER_PORT
+    depends_on:
+      - postgresdb
   app:
     depends_on:
       - postgresdb
