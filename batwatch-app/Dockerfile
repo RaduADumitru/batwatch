@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-21
+FROM maven:3.9.12-eclipse-temurin-21-alpine
 
 WORKDIR /app
 COPY . .
