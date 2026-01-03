@@ -24,6 +24,8 @@ services:
       - $PGADMIN_LOCAL_PORT:$PGADMIN_DOCKER_PORT
     depends_on:
       - postgresdb
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
   app:
     depends_on:
       - postgresdb
@@ -50,3 +52,4 @@ services:
 
 volumes:
   db:
+  pgadmin-data:
