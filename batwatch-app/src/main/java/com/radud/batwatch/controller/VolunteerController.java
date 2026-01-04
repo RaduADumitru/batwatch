@@ -4,6 +4,7 @@ import com.radud.batwatch.mapper.VolunteerMapper;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.request.CreateVolunteerRequest;
 import com.radud.batwatch.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class VolunteerController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createVolunteer(@RequestBody CreateVolunteerRequest request) {
+    public ResponseEntity<?> createVolunteer(@Valid @RequestBody CreateVolunteerRequest request) {
         AppUser user = volunteerMapper.createRequestToModel(request);
         userService.createUser(user);
         return ResponseEntity.ok("Volunteer created");
