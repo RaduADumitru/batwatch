@@ -1,5 +1,6 @@
 package com.radud.batwatch.service;
 
+import com.radud.batwatch.exception.DuplicateUserException;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +21,10 @@ public class UserService {
     }
 
     public void createUser(AppUser user) {
-        Optional<AppUser> existingUser = userRepository.findByUsername(user.getUsername());
+        String username = user.getUsername();
+        Optional<AppUser> existingUser = userRepository.findByUsername(username);
         if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new DuplicateUserException("User named " + username + " already exists");
         }
         user.setPassword(encodePassword(user.getPassword()));
         userRepository.save(user);
