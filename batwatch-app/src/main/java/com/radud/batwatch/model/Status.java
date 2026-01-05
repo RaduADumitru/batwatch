@@ -17,4 +17,12 @@ public class Status {
 
     @Enumerated(EnumType.STRING)
     private StatusType statusType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id")
+    private Report report;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_user_id")
+    private AppUser setByUser;
 }
