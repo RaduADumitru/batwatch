@@ -7,7 +7,12 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {
+        LocationMapper.class,
+        CommentMapper.class,
+        StatusMapper.class,
+        AssignmentMapper.class
+})
 public interface ReportMapper {
 
     Report toModel(CreateReportRequest createReportRequest);

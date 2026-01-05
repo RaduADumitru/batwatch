@@ -11,4 +11,5 @@ public record StatusResponse(
         Long reportId,
         UserResponse setByUser
 ) {
+
 }
