@@ -2,7 +2,6 @@ package com.radud.batwatch.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;

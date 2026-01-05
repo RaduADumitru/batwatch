@@ -3,7 +3,6 @@ package com.radud.batwatch.service;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.model.Report;
 import com.radud.batwatch.model.Status;
-import com.radud.batwatch.model.StatusType;
 import com.radud.batwatch.repository.ReportRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

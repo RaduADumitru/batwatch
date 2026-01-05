@@ -1,8 +1,6 @@
 package com.radud.batwatch.response;
 
-import com.radud.batwatch.model.Assignment;
 import com.radud.batwatch.model.Comment;
-import com.radud.batwatch.model.Status;
 
 import java.time.Instant;
 import java.util.List;

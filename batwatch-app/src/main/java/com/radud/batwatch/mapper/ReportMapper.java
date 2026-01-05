@@ -1,6 +1,7 @@
 package com.radud.batwatch.mapper;
 
-import com.radud.batwatch.model.*;
+import com.radud.batwatch.model.Location;
+import com.radud.batwatch.model.Report;
 import com.radud.batwatch.request.CreateReportRequest;
 import com.radud.batwatch.response.ReportResponse;
 import org.mapstruct.AfterMapping;
