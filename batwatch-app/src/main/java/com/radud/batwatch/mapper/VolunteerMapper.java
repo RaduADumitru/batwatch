@@ -11,7 +11,7 @@ import static com.radud.batwatch.model.Role.VOLUNTEER;
 @Mapper(componentModel = "spring")
 public interface VolunteerMapper {
 
-    AppUser createRequestToModel(CreateVolunteerRequest createVolunteerRequest);
+    AppUser toModel(CreateVolunteerRequest createVolunteerRequest);
 
     @AfterMapping
     default void setRole(CreateVolunteerRequest request, @MappingTarget AppUser appUser) {

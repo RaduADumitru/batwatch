@@ -11,7 +11,7 @@ import static com.radud.batwatch.model.Role.ADMIN;
 @Mapper(componentModel = "spring")
 public interface AdminMapper {
 
-    AppUser createRequestToModel(CreateAdminRequest createAdminRequest);
+    AppUser toModel(CreateAdminRequest createAdminRequest);
 
     @AfterMapping
     default void setRole(CreateAdminRequest request, @MappingTarget AppUser appUser) {

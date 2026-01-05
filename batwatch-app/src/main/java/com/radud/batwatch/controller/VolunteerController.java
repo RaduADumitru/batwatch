@@ -1,8 +1,10 @@
 package com.radud.batwatch.controller;
 
+import com.radud.batwatch.mapper.UserMapper;
 import com.radud.batwatch.mapper.VolunteerMapper;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.request.CreateVolunteerRequest;
+import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,20 @@ public class VolunteerController {
 
     private final VolunteerMapper volunteerMapper;
 
-    public VolunteerController(UserService userService, VolunteerMapper volunteerMapper) {
+    private final UserMapper userMapper;
+
+    public VolunteerController(UserService userService, VolunteerMapper volunteerMapper, UserMapper userMapper) {
         this.userService = userService;
         this.volunteerMapper = volunteerMapper;
+        this.userMapper = userMapper;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createVolunteer(@Valid @RequestBody CreateVolunteerRequest request) {
-        AppUser user = volunteerMapper.createRequestToModel(request);
-        userService.createUser(user);
-        return ResponseEntity.ok("Volunteer created");
+        AppUser user = volunteerMapper.toModel(request);
+        AppUser createdUser = userService.createUser(user);
+        UserResponse response = userMapper.toResponse(createdUser);
+        return ResponseEntity.ok(response);
     }
 }

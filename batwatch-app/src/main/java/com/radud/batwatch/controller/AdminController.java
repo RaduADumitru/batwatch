@@ -4,7 +4,7 @@ import com.radud.batwatch.mapper.AdminMapper;
 import com.radud.batwatch.mapper.UserMapper;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.request.CreateAdminRequest;
-import com.radud.batwatch.request.CreateUserRequest;
+import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +22,20 @@ public class AdminController {
 
     private final AdminMapper adminMapper;
 
-    public AdminController(UserService userService, AdminMapper adminMapper) {
+    private final UserMapper userMapper;
+
+    public AdminController(UserService userService, AdminMapper adminMapper, UserMapper userMapper) {
         this.userService = userService;
         this.adminMapper = adminMapper;
+        this.userMapper = userMapper;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createAdmin(@Valid @RequestBody CreateAdminRequest request) {
-        AppUser user = adminMapper.createRequestToModel(request);
-        userService.createUser(user);
-        return ResponseEntity.ok("Admin created");
+        AppUser user = adminMapper.toModel(request);
+        AppUser createdUser = userService.createUser(user);
+        UserResponse response = userMapper.toResponse(createdUser);
+        return ResponseEntity.ok(response);
     }
 }
