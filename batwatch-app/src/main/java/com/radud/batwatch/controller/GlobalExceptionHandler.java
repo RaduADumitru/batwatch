@@ -1,6 +1,8 @@
 package com.radud.batwatch.controller;
 
 import com.radud.batwatch.exception.DuplicateUserException;
+import com.radud.batwatch.exception.ReportNotFoundException;
+import com.radud.batwatch.exception.AuthenticatedUserNotFoundException;
 import com.radud.batwatch.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +31,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFound(DuplicateUserException ex) {
+    @ExceptionHandler(AuthenticatedUserNotFoundException.class)
+    public ResponseEntity<String> handleAuthenticatedUserNotFound(AuthenticatedUserNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ReportNotFoundException.class)
+    public ResponseEntity<String> handleReportNotFound(ReportNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

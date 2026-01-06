@@ -1,6 +1,6 @@
 package com.radud.batwatch.service;
 
-import com.radud.batwatch.exception.UserNotFoundException;
+import com.radud.batwatch.exception.AuthenticatedUserNotFoundException;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.repository.UserRepository;
 import jakarta.annotation.Nullable;
@@ -20,7 +20,7 @@ public class UserContextService {
      * Retrieves the currently authenticated user from the security context.
      *
      * @return the current AppUser, or null if no user is authenticated
-     * @throws UserNotFoundException if no authenticated user is found or if the user does not exist in the database
+     * @throws AuthenticatedUserNotFoundException if no authenticated user is found or if the user does not exist in the database
      */
     @Nullable
     public AppUser getCurrentUser() {
@@ -38,6 +38,6 @@ public class UserContextService {
         }
 
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("Authenticated user not found in database: " + username));
+                .orElseThrow(() -> new AuthenticatedUserNotFoundException("Authenticated user not found in database: " + username));
     }
 }
