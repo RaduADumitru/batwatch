@@ -1,5 +1,6 @@
 package com.radud.batwatch.service;
 
+import com.radud.batwatch.exception.ReportNotFoundException;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.model.Report;
 import com.radud.batwatch.model.Status;
@@ -31,5 +32,10 @@ public class ReportService {
         // report is created by the current user
         report.setCreatedByUser(currentUser);
         return reportRepository.save(report);
+    }
+
+    public Report getReportById(Long id) {
+        return reportRepository.findById(id)
+                .orElseThrow(() -> new ReportNotFoundException("Report not found with id: " + id));
     }
 }

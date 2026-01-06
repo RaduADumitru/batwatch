@@ -8,10 +8,7 @@ import com.radud.batwatch.service.ReportService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/report")
@@ -27,6 +24,13 @@ public class ReportController {
         Report report = reportMapper.toModel(request);
         Report createdReport = reportService.createReport(report);
         ReportResponse response = reportMapper.toResponse(createdReport);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getReport(@PathVariable Long id) {
+        Report report = reportService.getReportById(id);
+        ReportResponse response = reportMapper.toResponse(report);
         return ResponseEntity.ok(response);
     }
 

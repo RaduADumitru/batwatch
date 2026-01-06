@@ -7,6 +7,7 @@ import com.radud.batwatch.model.Status;
 import com.radud.batwatch.model.StatusType;
 import com.radud.batwatch.repository.ReportRepository;
 import com.radud.batwatch.repository.StatusRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class StatusService {
 
     private final ReportRepository reportRepository;
 
+    @Transactional
     public Status createStatus(Long reportId, StatusType statusType) {
         AppUser currentUser = userContextService.getCurrentUser();
         Report report = reportRepository.findById(reportId)

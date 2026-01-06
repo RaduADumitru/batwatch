@@ -13,7 +13,7 @@ public record ReportResponse(
         List<LocationResponse> locations,
         List<AssignmentResponse> assignments,
         List<StatusResponse> statuses,
-        List<Comment> comments,
+        List<CommentResponse> comments,
         UserResponse createdByUser
 ) {
 }
