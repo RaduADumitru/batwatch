@@ -9,9 +9,11 @@ import com.radud.batwatch.repository.AssignmentRepository;
 import com.radud.batwatch.repository.ReportRepository;
 import com.radud.batwatch.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
@@ -21,13 +23,6 @@ public class AssignmentService {
     private final ReportRepository reportRepository;
 
     private final UserRepository userRepository;
-
-    public AssignmentService(AssignmentRepository assignmentRepository, UserContextService userContextService, ReportRepository reportRepository, UserRepository userRepository) {
-        this.assignmentRepository = assignmentRepository;
-        this.userContextService = userContextService;
-        this.reportRepository = reportRepository;
-        this.userRepository = userRepository;
-    }
 
     @Transactional
     public Assignment createAssignment(Long reportId, Long assignedUserId) {

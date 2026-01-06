@@ -7,6 +7,6 @@ public record CommentResponse(
         String content,
         Instant createdOn,
         Long reportId,
-        UserResponse userResponse
+        UserResponse createdByUser
 ) {
 }
