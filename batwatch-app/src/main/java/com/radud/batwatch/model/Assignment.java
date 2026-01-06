@@ -22,11 +22,11 @@ public class Assignment {
     private Instant assignedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "assigned_user_id")
     private AppUser assignedUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "assigned_by_user_id")
     private AppUser assignedByUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
