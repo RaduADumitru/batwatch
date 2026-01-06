@@ -7,6 +7,7 @@ import com.radud.batwatch.request.CreateVolunteerRequest;
 import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/volunteer")
+@AllArgsConstructor
 public class VolunteerController {
 
     private final UserService userService;
@@ -23,12 +25,6 @@ public class VolunteerController {
     private final VolunteerMapper volunteerMapper;
 
     private final UserMapper userMapper;
-
-    public VolunteerController(UserService userService, VolunteerMapper volunteerMapper, UserMapper userMapper) {
-        this.userService = userService;
-        this.volunteerMapper = volunteerMapper;
-        this.userMapper = userMapper;
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping

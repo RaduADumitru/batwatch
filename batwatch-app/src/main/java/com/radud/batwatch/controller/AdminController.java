@@ -7,6 +7,7 @@ import com.radud.batwatch.request.CreateAdminRequest;
 import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
+@AllArgsConstructor
 public class AdminController {
 
     private final UserService userService;
@@ -23,12 +25,6 @@ public class AdminController {
     private final AdminMapper adminMapper;
 
     private final UserMapper userMapper;
-
-    public AdminController(UserService userService, AdminMapper adminMapper, UserMapper userMapper) {
-        this.userService = userService;
-        this.adminMapper = adminMapper;
-        this.userMapper = userMapper;
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
