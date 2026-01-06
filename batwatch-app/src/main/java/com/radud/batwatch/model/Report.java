@@ -29,12 +29,15 @@ public class Report {
     private List<Location> locations = new ArrayList<>();
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("assignedAt DESC")
     private List<Assignment> assignments = new ArrayList<>();
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("setAt DESC")
     private List<Status> statuses = new ArrayList<>();
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdOn DESC")
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

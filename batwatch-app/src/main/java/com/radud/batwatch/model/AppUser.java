@@ -37,14 +37,18 @@ public class AppUser {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "createdByUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdOn DESC")
     private List<Report> reports = new ArrayList<>();
 
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("assignedAt DESC")
     private List<Assignment> assignedToUser = new ArrayList<>();
 
     @OneToMany(mappedBy = "assignedByUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("assignedAt DESC")
     private List<Assignment> assignedByUser = new ArrayList<>();
 
     @OneToMany(mappedBy = "createdByUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdOn DESC")
     private List<Comment> comments = new ArrayList<>();
 }
