@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.radud.batwatch.model.Role.USER;
+
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
@@ -24,8 +26,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest request) {
-        AppUser user = userMapper.createRequestToModel(request);
-        AppUser createdUser = userService.createUser(user);
+        AppUser createdUser = userService.createUser(request.username(), request.password(), USER);
         UserResponse response = userMapper.toResponse(createdUser);
         return ResponseEntity.ok(response);
     }

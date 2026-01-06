@@ -42,6 +42,4 @@ public class ReportController {
         List<ReportResponse> response = reportMapper.toResponseList(reports);
         return ResponseEntity.ok(response);
     }
-
-
 }
