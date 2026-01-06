@@ -8,6 +8,8 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {
         LocationMapper.class,
         CommentMapper.class,
@@ -28,4 +30,6 @@ public interface ReportMapper {
     }
 
     ReportResponse toResponse(Report report);
+
+    List<ReportResponse> toResponseList(List<Report> reports);
 }

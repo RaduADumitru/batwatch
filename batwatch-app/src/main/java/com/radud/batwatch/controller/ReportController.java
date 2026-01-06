@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/report")
 @AllArgsConstructor
@@ -31,6 +33,13 @@ public class ReportController {
     public ResponseEntity<?> getReport(@PathVariable Long id) {
         Report report = reportService.getReportById(id);
         ReportResponse response = reportMapper.toResponse(report);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getReports(@RequestParam(required = false) Long cityId) {
+        List<Report> reports = reportService.getReports(cityId);
+        List<ReportResponse> response = reportMapper.toResponseList(reports);
         return ResponseEntity.ok(response);
     }
 
