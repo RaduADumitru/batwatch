@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/status")
@@ -25,9 +22,9 @@ public class StatusController {
 
     @PreAuthorize("hasRole('VOLUNTEER')")
     @PostMapping
-    public ResponseEntity<?> createStatus(@Valid @RequestBody CreateStatusRequest request) {
+    @ResponseBody
+    public StatusResponse createStatus(@Valid @RequestBody CreateStatusRequest request) {
         Status status = statusService.createStatus(request.reportId(), request.statusType());
-        StatusResponse response = statusMapper.toResponse(status);
-        return ResponseEntity.ok(response);
+        return statusMapper.toResponse(status);
     }
 }

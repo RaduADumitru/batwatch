@@ -8,10 +8,7 @@ import com.radud.batwatch.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comment")
@@ -23,9 +20,9 @@ public class CommentController {
     private final CommentMapper commentMapper;
 
     @PostMapping
-    public ResponseEntity<?> createComment(@Valid @RequestBody CreateCommentRequest request) {
+    @ResponseBody
+    public CommentResponse createComment(@Valid @RequestBody CreateCommentRequest request) {
         Comment comment = commentService.createComment(request.reportId(), request.content());
-        CommentResponse response = commentMapper.toResponse(comment);
-        return ResponseEntity.ok(response);
+        return commentMapper.toResponse(comment);
     }
 }

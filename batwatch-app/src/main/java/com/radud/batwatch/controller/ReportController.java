@@ -22,24 +22,24 @@ public class ReportController {
     private final ReportMapper reportMapper;
 
     @PostMapping
-    public ResponseEntity<?> createReport(@Valid @RequestBody CreateReportRequest request) {
+    @ResponseBody
+    public ReportResponse createReport(@Valid @RequestBody CreateReportRequest request) {
         Report report = reportMapper.toModel(request);
         Report createdReport = reportService.createReport(report);
-        ReportResponse response = reportMapper.toResponse(createdReport);
-        return ResponseEntity.ok(response);
+        return reportMapper.toResponse(createdReport);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getReport(@PathVariable Long id) {
+    @ResponseBody
+    public ReportResponse getReport(@PathVariable Long id) {
         Report report = reportService.getReportById(id);
-        ReportResponse response = reportMapper.toResponse(report);
-        return ResponseEntity.ok(response);
+        return reportMapper.toResponse(report);
     }
 
     @GetMapping()
-    public ResponseEntity<?> getReports(@RequestParam(required = false) Long cityId) {
+    @ResponseBody
+    public List<ReportResponse> getReports(@RequestParam(required = false) Long cityId) {
         List<Report> reports = reportService.getReports(cityId);
-        List<ReportResponse> response = reportMapper.toResponseList(reports);
-        return ResponseEntity.ok(response);
+        return reportMapper.toResponseList(reports);
     }
 }

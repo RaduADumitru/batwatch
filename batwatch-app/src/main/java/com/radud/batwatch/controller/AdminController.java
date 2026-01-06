@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.radud.batwatch.model.Role.ADMIN;
 
@@ -27,9 +24,9 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createAdmin(@Valid @RequestBody CreateAdminRequest request) {
+    @ResponseBody
+    public UserResponse createAdmin(@Valid @RequestBody CreateAdminRequest request) {
         AppUser createdUser = userService.createUser(request.username(), request.password(), ADMIN);
-        UserResponse response = userMapper.toResponse(createdUser);
-        return ResponseEntity.ok(response);
+        return userMapper.toResponse(createdUser);
     }
 }

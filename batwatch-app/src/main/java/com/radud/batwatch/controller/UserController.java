@@ -8,10 +8,7 @@ import com.radud.batwatch.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.radud.batwatch.model.Role.USER;
 
@@ -25,9 +22,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest request) {
+    @ResponseBody
+    public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
         AppUser createdUser = userService.createUser(request.username(), request.password(), USER);
-        UserResponse response = userMapper.toResponse(createdUser);
-        return ResponseEntity.ok(response);
+        return userMapper.toResponse(createdUser);
     }
 }
