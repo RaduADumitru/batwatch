@@ -8,6 +8,7 @@ import com.radud.batwatch.service.StatusService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class StatusController {
 
     private final StatusMapper statusMapper;
 
+    @PreAuthorize("hasRole('VOLUNTEER')")
     @PostMapping
     public ResponseEntity<?> createStatus(@Valid @RequestBody CreateStatusRequest request) {
         Status status = statusService.createStatus(request.reportId(), request.statusType());
