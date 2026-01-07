@@ -37,7 +37,7 @@ public class ReportService {
                 .setByUser(currentUser)
                 .report(report)
                 .build();
-        report.getStatuses().add(status);
+        report.setStatuses(List.of(status));
         // report is created by the current user
         report.setCreatedByUser(currentUser);
         return reportRepository.save(report);
