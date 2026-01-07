@@ -17,12 +17,8 @@ public record CreateReportRequest(
         @NotBlank(message = "Description must not be blank")
         String description,
 
-        @ArraySchema(
-                schema = @Schema(implementation = CreateLocationRequest.class),
-                arraySchema = @Schema(
-                        description = "List of relevant geographic locations for the report"
-                )
-        )
+        @ArraySchema(schema = @Schema(implementation = CreateLocationRequest.class))
+        @Schema(description = "List of relevant geographic locations for the report")
         @NotEmpty(message = "At least one location must be provided for the report")
         List<@Valid CreateLocationRequest> locations) {
 }
