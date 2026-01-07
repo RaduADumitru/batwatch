@@ -34,7 +34,48 @@ public class ReportController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created report",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ReportResponse.class)) }),
+                            schema = @Schema(implementation = ReportResponse.class,
+                            example = """
+                                    {
+                                      "id": 123,
+                                      "title": "Found bat in garden",
+                                      "description": "Saw a bat in my garden that could not fly. Could you please help?",
+                                      "createdOn": "2026-01-07T15:36:53.980240Z",
+                                      "locations": [
+                                        {
+                                          "id": 12345,
+                                          "details": "Bat in garden near the oak tree",
+                                          "longitude": 26.124994,
+                                          "latitude": 44.428436
+                                        }
+                                      ],
+                                      "assignments": [
+                                      ],
+                                      "statuses": [
+                                        {
+                                          "id": 1234,
+                                          "setAt": "2026-01-07T15:36:53.980240Z",
+                                          "statusType": "NEW",
+                                          "reportId": 123,
+                                          "setByUser": {
+                                            "id": 123,
+                                            "username": "user1",
+                                            "roles": [
+                                              "USER"
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "comments": [
+                                      ],
+                                      "createdByUser": {
+                                        "id": 123,
+                                        "username": "user1",
+                                        "roles": [
+                                          "USER"
+                                        ]
+                                      }
+                                    }""")) }),
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Request lacks valid authentication credentials",
