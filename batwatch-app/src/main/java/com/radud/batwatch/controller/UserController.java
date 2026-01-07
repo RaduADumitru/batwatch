@@ -7,13 +7,13 @@ import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.radud.batwatch.model.Role.USER;
@@ -36,7 +36,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content),
             @ApiResponse(responseCode = "409", description = "An user with the same username already exists",
-                    content = @Content) })
+                    content = @Content(mediaType = "text/plain", examples = { @ExampleObject(value = "User named user1 already exists") })) })
     @PostMapping
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
         AppUser createdUser = userService.createUser(request.username(), request.password(), USER);

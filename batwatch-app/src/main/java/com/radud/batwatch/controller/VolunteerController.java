@@ -8,6 +8,7 @@ import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,8 +36,12 @@ public class VolunteerController {
                                     example = "{\"id\":123,\"username\":\"volunteer1\",\"roles\":[\"VOLUNTEER\"]}")) }),
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content),
+            @ApiResponse(responseCode = "401", description = "Request lacks valid authentication credentials",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authenticated user does not have required ADMIN role",
+                    content = @Content),
             @ApiResponse(responseCode = "409", description = "An user with the same username already exists",
-                    content = @Content) })
+                    content = @Content(mediaType = "text/plain", examples = { @ExampleObject(value = "User named volunteer1 already exists") })) })
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public UserResponse createVolunteer(@Valid @RequestBody CreateVolunteerRequest request) {
