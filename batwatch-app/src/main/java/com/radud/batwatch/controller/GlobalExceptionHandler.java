@@ -38,4 +38,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleModelEntityNotFound(ModelEntityNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Void> handleGenericException(Exception ex) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
