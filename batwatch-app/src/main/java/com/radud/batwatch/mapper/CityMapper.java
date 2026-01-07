@@ -1,7 +1,6 @@
 package com.radud.batwatch.mapper;
 
 import com.radud.batwatch.model.City;
-import com.radud.batwatch.model.Location;
 import com.radud.batwatch.request.CreateCityRequest;
 import com.radud.batwatch.response.CityResponse;
 import com.radud.batwatch.service.PointFactory;

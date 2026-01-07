@@ -5,7 +5,6 @@ import com.radud.batwatch.exception.ReportNotFoundException;
 import com.radud.batwatch.model.AppUser;
 import com.radud.batwatch.model.Report;
 import com.radud.batwatch.model.Status;
-import com.radud.batwatch.model.StatusType;
 import com.radud.batwatch.repository.ReportRepository;
 import com.radud.batwatch.repository.StatusRepository;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,5 @@
 package com.radud.batwatch.response;
 
-import com.radud.batwatch.model.Comment;
-import com.radud.batwatch.request.CreateLocationRequest;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 

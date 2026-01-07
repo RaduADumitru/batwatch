@@ -3,7 +3,6 @@ package com.radud.batwatch.controller;
 import com.radud.batwatch.mapper.CommentMapper;
 import com.radud.batwatch.model.Comment;
 import com.radud.batwatch.request.CreateCommentRequest;
-import com.radud.batwatch.response.CityResponse;
 import com.radud.batwatch.response.CommentResponse;
 import com.radud.batwatch.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +14,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/comment")

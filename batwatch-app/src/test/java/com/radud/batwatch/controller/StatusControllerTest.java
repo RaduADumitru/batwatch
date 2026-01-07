@@ -1,7 +1,9 @@
 package com.radud.batwatch.controller;
 
 import com.radud.batwatch.mapper.StatusMapper;
-import com.radud.batwatch.model.*;
+import com.radud.batwatch.model.AppUser;
+import com.radud.batwatch.model.Report;
+import com.radud.batwatch.model.Status;
 import com.radud.batwatch.request.CreateStatusRequest;
 import com.radud.batwatch.response.StatusResponse;
 import com.radud.batwatch.response.UserResponse;

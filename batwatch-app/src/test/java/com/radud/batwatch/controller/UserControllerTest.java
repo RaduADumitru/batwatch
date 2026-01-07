@@ -2,7 +2,6 @@ package com.radud.batwatch.controller;
 
 import com.radud.batwatch.mapper.UserMapper;
 import com.radud.batwatch.model.AppUser;
-import com.radud.batwatch.model.Role;
 import com.radud.batwatch.request.CreateUserRequest;
 import com.radud.batwatch.response.UserResponse;
 import com.radud.batwatch.service.UserService;

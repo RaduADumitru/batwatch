@@ -3,7 +3,6 @@ package com.radud.batwatch.controller;
 import com.radud.batwatch.mapper.ReportMapper;
 import com.radud.batwatch.model.Report;
 import com.radud.batwatch.request.CreateReportRequest;
-import com.radud.batwatch.response.CityResponse;
 import com.radud.batwatch.response.ReportResponse;
 import com.radud.batwatch.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;

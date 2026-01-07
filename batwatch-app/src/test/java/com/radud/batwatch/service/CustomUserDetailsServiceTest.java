@@ -1,7 +1,6 @@
 package com.radud.batwatch.service;
 
 import com.radud.batwatch.model.AppUser;
-import com.radud.batwatch.model.Role;
 import com.radud.batwatch.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.radud.batwatch.model.Role.ADMIN;
 import static com.radud.batwatch.model.Role.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,6 +1,8 @@
 package com.radud.batwatch.controller;
 
-import com.radud.batwatch.exception.*;
+import com.radud.batwatch.exception.AuthenticatedUserNotFoundException;
+import com.radud.batwatch.exception.DuplicateUserException;
+import com.radud.batwatch.exception.ModelEntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
