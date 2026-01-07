@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ModelEntityNotFoundException.class)
-    public ResponseEntity<String> handleReportNotFound(ReportNotFoundException ex) {
+    public ResponseEntity<String> handleModelEntityNotFound(ModelEntityNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
