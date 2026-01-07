@@ -7,6 +7,8 @@ import com.radud.batwatch.response.CityResponse;
 import com.radud.batwatch.response.ReportResponse;
 import com.radud.batwatch.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -98,7 +100,9 @@ public class ReportController {
                     content = @Content(mediaType = "text/plain", examples = { @ExampleObject(value = "Report not found with id: 5432") })),
     })
     @GetMapping("/{id}")
-    public ReportResponse getReport(@PathVariable Long id) {
+    public ReportResponse getReport(
+            @Parameter(in = ParameterIn.PATH, description = "Id of the report", required = true, example = "123")
+            @PathVariable Long id) {
         Report report = reportService.getReportById(id);
         return reportMapper.toResponse(report);
     }
@@ -114,7 +118,9 @@ public class ReportController {
                     content = @Content(mediaType = "text/plain", examples = { @ExampleObject(value = "Invalid city id: 23245") }))
     })
     @GetMapping()
-    public List<ReportResponse> getReports(@RequestParam(required = false) Long cityId) {
+    public List<ReportResponse> getReports(
+            @Parameter(in = ParameterIn.QUERY, description = "Optional city id to filter reports by. If passed, reports inside the area of the city will be returned.", required = false, example = "12345")
+            @RequestParam(required = false) Long cityId) {
         List<Report> reports = reportService.getReports(cityId);
         return reportMapper.toResponseList(reports);
     }
