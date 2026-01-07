@@ -8,6 +8,7 @@ import com.radud.batwatch.model.Report;
 import com.radud.batwatch.model.Status;
 import com.radud.batwatch.repository.CityRepository;
 import com.radud.batwatch.repository.ReportRepository;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class ReportService {
     private final CityRepository cityRepository;
 
     @Transactional
-    public Report createReport(Report report) {
+    public Report createReport(@Nonnull Report report) {
         AppUser currentUser = userContextService.getCurrentUser();
         // assign status new
         Status status = Status.builder()
@@ -42,7 +43,7 @@ public class ReportService {
         return reportRepository.save(report);
     }
 
-    public Report getReportById(Long id) {
+    public Report getReportById(@Nonnull Long id) {
         return reportRepository.findById(id)
                 .orElseThrow(() -> new ReportNotFoundException("Report not found with id: " + id));
     }

@@ -4,6 +4,7 @@ import com.radud.batwatch.exception.ReportNotFoundException;
 import com.radud.batwatch.model.Comment;
 import com.radud.batwatch.repository.CommentRepository;
 import com.radud.batwatch.repository.ReportRepository;
+import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class CommentService {
     private final ReportRepository reportRepository;
 
     @Transactional
-    public Comment createComment(Long reportId, String content) {
+    public Comment createComment(@Nonnull Long reportId, @Nonnull String content) {
         // get current user
         var currentUser = userContextService.getCurrentUser();
         // check if report id is valid

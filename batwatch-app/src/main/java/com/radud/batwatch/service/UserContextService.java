@@ -31,6 +31,7 @@ public class UserContextService {
 
         Object principal = auth.getPrincipal();
         String username;
+        // type of principal is determined by implementation of authentication
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {

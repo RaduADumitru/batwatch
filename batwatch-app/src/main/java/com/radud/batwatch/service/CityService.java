@@ -2,6 +2,8 @@ package com.radud.batwatch.service;
 
 import com.radud.batwatch.model.City;
 import com.radud.batwatch.repository.CityRepository;
+import jakarta.annotation.Nonnull;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Service;
 public class CityService {
     private final CityRepository cityRepository;
 
-    public City createCity(City city) {
+    @Transactional
+    public City createCity(@Nonnull City city) {
         return cityRepository.save(city);
     }
 }

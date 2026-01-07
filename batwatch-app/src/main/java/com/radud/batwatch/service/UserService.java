@@ -17,6 +17,7 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
