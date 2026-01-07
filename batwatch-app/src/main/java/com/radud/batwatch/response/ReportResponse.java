@@ -30,7 +30,7 @@ public record ReportResponse(
         @ArraySchema(
                 schema = @Schema(implementation = AssignmentResponse.class),
                 arraySchema = @Schema(
-                        description = "List of assignments made for the report"
+                        description = "List of assignments made for the report. Returned in order from newest to oldest; the first assignment is the current one."
                 )
         )
         List<AssignmentResponse> assignments,
@@ -38,7 +38,7 @@ public record ReportResponse(
         @ArraySchema(
                 schema = @Schema(implementation = StatusResponse.class),
                 arraySchema = @Schema(
-                        description = "List of statuses set for the report"
+                        description = "List of statuses set for the report. Returned in order from newest to oldest; the first status is the current one."
                 )
         )
         List<StatusResponse> statuses,
@@ -46,7 +46,7 @@ public record ReportResponse(
         @ArraySchema(
                 schema = @Schema(implementation = CommentResponse.class),
                 arraySchema = @Schema(
-                        description = "List of comments made on the report"
+                        description = "List of comments made on the report. Returned in order from newest to oldest."
                 )
         )
         List<CommentResponse> comments,
