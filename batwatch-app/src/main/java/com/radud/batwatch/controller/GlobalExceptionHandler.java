@@ -48,10 +48,4 @@ public class GlobalExceptionHandler {
                 ex.getValue(), ex.getName(), ex.getRequiredType().getSimpleName());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Void> handleGenericException(Exception ex) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }
