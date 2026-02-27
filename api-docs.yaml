@@ -1,0 +1,747 @@
+openapi: 3.1.0
+info:
+  title: Batwatch API
+  description: "API for managing reports of bat sightings, along with tracking and\
+    \ resolution of conflicts."
+  contact:
+    name: Radu Dumitru
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: Report
+  description: Report management endpoints
+- name: Admin
+  description: Admin user management endpoints
+- name: Comment
+  description: Comment management endpoints
+- name: User
+  description: User management endpoints
+- name: Assignment
+  description: Assignment management endpoints
+- name: Volunteer
+  description: Volunteer management endpoints
+- name: Status
+  description: Status management endpoints
+- name: City
+  description: City management endpoints
+paths:
+  /volunteer:
+    post:
+      tags:
+      - Volunteer
+      summary: Create volunteer
+      description: "Creates a new user with the VOLUNTEER role, with the provided\
+        \ username and password. Volunteers have all rights of standard users, plus\
+        \ abilities like managing assignments. Requires ADMIN role."
+      operationId: createVolunteer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVolunteerRequest"
+        required: true
+      responses:
+        "200":
+          description: Created volunteer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+                example:
+                  id: 123
+                  username: volunteer1
+                  roles:
+                  - VOLUNTEER
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "403":
+          description: Authenticated user does not have required ADMIN role
+        "409":
+          description: An user with the same username already exists
+          content:
+            text/plain:
+              example: User named volunteer1 already exists
+  /user:
+    post:
+      tags:
+      - User
+      summary: Create user
+      description: "Creates a new user with the USER role, with the provided username\
+        \ and password. This user will then be able to do actions like leaving reports."
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+        required: true
+      responses:
+        "200":
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Invalid request body
+        "409":
+          description: An user with the same username already exists
+          content:
+            text/plain:
+              example: User named user1 already exists
+  /status:
+    post:
+      tags:
+      - Status
+      summary: Create status
+      description: Assign a status to a report. Requires VOLUNTEER role.
+      operationId: createStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStatusRequest"
+        required: true
+      responses:
+        "200":
+          description: Created status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "403":
+          description: Authenticated user does not have required VOLUNTEER role
+        "404":
+          description: Report not found
+          content:
+            text/plain:
+              example: "Invalid report id: 213521"
+  /report:
+    get:
+      tags:
+      - Report
+      summary: Get reports
+      description: Get all reports. Optionally filter by city - this will return reports
+        of sightings inside that city.
+      operationId: getReports
+      parameters:
+      - name: cityId
+        in: query
+        description: "Optional city id to filter reports by. If passed, reports inside\
+          \ the area of the city will be returned."
+        required: false
+        schema:
+          type: integer
+          format: int64
+        example: 12345
+      responses:
+        "200":
+          description: Obtained reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReportResponse"
+        "400":
+          description: Invalid city id supplied
+          content:
+            text/plain:
+              example: "Invalid value 'non-numeric' for parameter 'id'. Expected type:\
+                \ Long"
+        "404":
+          description: City not found
+          content:
+            text/plain:
+              example: "Invalid city id: 23245"
+    post:
+      tags:
+      - Report
+      summary: Create report
+      description: Create a new report related to a bat sighting. Requires authentication.
+      operationId: createReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+        required: true
+      responses:
+        "200":
+          description: Created report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportResponse"
+                example:
+                  id: 123
+                  title: Found bat in garden
+                  description: Saw a bat in my garden that could not fly. Could you
+                    please help?
+                  createdOn: 2026-01-07T15:36:53.980240Z
+                  locations:
+                  - id: 12345
+                    details: Bat in garden near the oak tree
+                    longitude: 26.124994
+                    latitude: 44.428436
+                  assignments: []
+                  statuses:
+                  - id: 1234
+                    setAt: 2026-01-07T15:36:53.980240Z
+                    statusType: NEW
+                    reportId: 123
+                    setByUser:
+                      id: 123
+                      username: user1
+                      roles:
+                      - USER
+                  comments: []
+                  createdByUser:
+                    id: 123
+                    username: user1
+                    roles:
+                    - USER
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+  /comment:
+    post:
+      tags:
+      - Comment
+      summary: Create comment
+      description: Create a new comment for a report. Requires authentication.
+      operationId: createComment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCommentRequest"
+        required: true
+      responses:
+        "200":
+          description: Created comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "404":
+          description: Report not found
+          content:
+            text/plain:
+              example: "Invalid report id: 213521"
+  /city:
+    post:
+      tags:
+      - City
+      summary: Create city
+      description: Create a new city. Its approximate area is determined via coordinates
+        of its geographic center and a radius. This will then allow searches for reports
+        inside this city. Requires ADMIN role.
+      operationId: createCity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCityRequest"
+        required: true
+      responses:
+        "200":
+          description: Created city
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CityResponse"
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "403":
+          description: Authenticated user does not have required ADMIN role
+  /assignment:
+    post:
+      tags:
+      - Assignment
+      summary: Create assignment
+      description: Create a new assignment for a report (assign a report to a given
+        user). Requires VOLUNTEER role.
+      operationId: createAssignment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssignmentRequest"
+        required: true
+      responses:
+        "200":
+          description: Created assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "403":
+          description: Authenticated user does not have required VOLUNTEER role
+        "404":
+          description: Assigned user or report not found
+          content:
+            text/plain:
+              example: "Invalid report id: 213521"
+  /admin:
+    post:
+      tags:
+      - Admin
+      summary: Create admin
+      description: Creates a new admin user with the provided username and password.
+        Requires ADMIN role. An admin has all rights of volunteers and additional
+        administrative privileges like creating new volunteers and admins.
+      operationId: createAdmin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAdminRequest"
+        required: true
+      responses:
+        "200":
+          description: Created admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+                example:
+                  id: 123
+                  username: admin1
+                  roles:
+                  - ADMIN
+        "400":
+          description: Invalid request body
+        "401":
+          description: Request lacks valid authentication credentials
+        "403":
+          description: Authenticated user does not have required ADMIN role
+        "409":
+          description: An user with the same username already exists
+          content:
+            text/plain:
+              example: User named admin1 already exists
+  /report/{id}:
+    get:
+      tags:
+      - Report
+      summary: Get report
+      description: Get a report by its id.
+      operationId: getReport
+      parameters:
+      - name: id
+        in: path
+        description: Id of the report
+        required: true
+        schema:
+          type: integer
+          format: int64
+        example: 123
+      responses:
+        "200":
+          description: Found report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportResponse"
+        "400":
+          description: Invalid report id supplied
+          content:
+            text/plain:
+              example: "Invalid value 'non-numeric' for parameter 'id'. Expected type:\
+                \ Long"
+        "404":
+          description: Report not found
+          content:
+            text/plain:
+              example: "Report not found with id: 5432"
+components:
+  schemas:
+    CreateVolunteerRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the volunteer
+          example: volunteer1
+        password:
+          type: string
+          description: Password of the volunteer
+          example: password
+      required:
+      - password
+      - username
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the user
+          example: 123
+        username:
+          type: string
+          description: Username of the user
+          example: user1
+        roles:
+          type: array
+          description: Roles of the user
+          example:
+          - USER
+          items:
+            type: string
+            enum:
+            - USER
+            - VOLUNTEER
+            - ADMIN
+          uniqueItems: true
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the user
+          example: user1
+        password:
+          type: string
+          description: Password of the user
+          example: password
+      required:
+      - password
+      - username
+    CreateStatusRequest:
+      type: object
+      properties:
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the status is set
+          example: 123
+        statusType:
+          type: string
+          description: Type of the status set
+          enum:
+          - NEW
+          - IN_PROGRESS
+          - RESOLVED
+          - CLOSED
+          example: IN_PROGRESS
+      required:
+      - reportId
+      - statusType
+    StatusResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the status
+          example: 1234
+        setAt:
+          type: string
+          format: date-time
+          description: Time the status was set at
+          example: 2026-01-07T15:36:53.980240Z
+        statusType:
+          type: string
+          description: Type of the status
+          enum:
+          - NEW
+          - IN_PROGRESS
+          - RESOLVED
+          - CLOSED
+          example: IN_PROGRESS
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the status is set
+          example: 123
+        setByUser:
+          $ref: "#/components/schemas/UserResponse"
+          description: Information about the user who set the status
+    CreateLocationRequest:
+      type: object
+      properties:
+        details:
+          type: string
+          description: Textual details of the location
+          example: Bat in garden near the oak tree
+        longitude:
+          type: number
+          format: double
+          description: Longitude of the location
+          example: 26.124994
+          maximum: 180
+          minimum: -180
+        latitude:
+          type: number
+          format: double
+          description: Latitude of the location
+          example: 44.428436
+          maximum: 90
+          minimum: -90
+      required:
+      - details
+      - latitude
+      - longitude
+    CreateReportRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the report
+          example: Found bat in garden
+        description:
+          type: string
+          description: Description of the report with added details
+          example: Saw a bat in my garden that could not fly. Could you please help?
+        locations:
+          type: array
+          description: List of relevant geographic locations for the report
+          items:
+            $ref: "#/components/schemas/CreateLocationRequest"
+      required:
+      - description
+      - locations
+      - title
+    LocationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the location
+          example: 12345
+        details:
+          type: string
+          description: Textual details of the location
+          example: Bat in garden near the oak tree
+        longitude:
+          type: number
+          format: double
+          description: Longitude of the location
+          example: 26.124994
+        latitude:
+          type: number
+          format: double
+          description: Latitude of the location
+          example: 44.428436
+    AssignmentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the assignment
+          example: 1234
+        assignedAt:
+          type: string
+          format: date-time
+          description: Time when the assignment was made
+          example: 2026-01-07T15:46:53.980240Z
+        assignedUser:
+          $ref: "#/components/schemas/UserResponse"
+          description: Information about the user who is assigned to the report
+        assignedByUser:
+          $ref: "#/components/schemas/UserResponse"
+          description: Information about the user who made the assignment
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the assignment was made
+          example: 123
+    CommentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the city
+          example: 1234
+        content:
+          type: string
+          description: Textual content of the comment
+          example: This is a comment.
+        createdOn:
+          type: string
+          format: date-time
+          description: Time when the comment was created
+          example: 2026-01-07T15:39:53.980240Z
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the comment is made
+          example: 123
+        createdByUser:
+          $ref: "#/components/schemas/UserResponse"
+          description: Information about the user who created the comment
+    ReportResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the report
+          example: 123
+        title:
+          type: string
+          description: Title of the report
+          example: Found bat in garden
+        description:
+          type: string
+          description: Description of the report with added details
+          example: Saw a bat in my garden that could not fly. Could you please help?
+        createdOn:
+          type: string
+          format: date-time
+          description: Time when the report was made
+          example: 2026-01-07T15:36:53.980240Z
+        locations:
+          type: array
+          description: List of locations associated with the report
+          items:
+            $ref: "#/components/schemas/LocationResponse"
+        assignments:
+          type: array
+          description: List of assignments made for the report. Returned in order
+            from newest to oldest; the first assignment is the current one.
+          items:
+            $ref: "#/components/schemas/AssignmentResponse"
+        statuses:
+          type: array
+          description: List of statuses set for the report. Returned in order from
+            newest to oldest; the first status is the current one.
+          items:
+            $ref: "#/components/schemas/StatusResponse"
+        comments:
+          type: array
+          description: List of comments made on the report. Returned in order from
+            newest to oldest.
+          items:
+            $ref: "#/components/schemas/CommentResponse"
+        createdByUser:
+          $ref: "#/components/schemas/UserResponse"
+          description: Information about the user who created the report
+    CreateCommentRequest:
+      type: object
+      properties:
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the comment is made
+          example: 123
+        content:
+          type: string
+          description: Textual content of the comment
+          example: This is a comment.
+      required:
+      - content
+      - reportId
+    CreateCityRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the city
+          example: Bucharest
+        centerLongitude:
+          type: number
+          format: double
+          description: Longitude of the geographic center of the city
+          example: 26.096306
+          maximum: 180
+          minimum: -180
+        centerLatitude:
+          type: number
+          format: double
+          description: Latitude of the geographic center of the city
+          example: 44.439663
+          maximum: 90
+          minimum: -90
+        radiusInMeters:
+          type: number
+          format: double
+          description: Radius from the center of the city to be considered as the
+            area of the city
+          example: 11950
+      required:
+      - centerLatitude
+      - centerLongitude
+      - name
+      - radiusInMeters
+    CityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the city
+          example: 123
+        name:
+          type: string
+          description: Name of the city
+          example: Bucharest
+        centerLongitude:
+          type: number
+          format: double
+          description: Longitude of the geographic center of the city
+          example: 26.096306
+        centerLatitude:
+          type: number
+          format: double
+          description: Latitude of the geographic center of the city
+          example: 44.439663
+        radiusInMeters:
+          type: number
+          format: double
+          description: Radius from the center of the city to be considered as the
+            area of the city
+          example: 11950
+    CreateAssignmentRequest:
+      type: object
+      properties:
+        reportId:
+          type: integer
+          format: int64
+          description: Id of the report for which the assignment is made
+          example: 123
+        assignedUserId:
+          type: integer
+          format: int64
+          description: Id of the user assigned to the report
+          example: 456
+      required:
+      - assignedUserId
+      - reportId
+    CreateAdminRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the admin
+          example: admin1
+        password:
+          type: string
+          description: Password of the admin
+          example: adminpass
+      required:
+      - username
