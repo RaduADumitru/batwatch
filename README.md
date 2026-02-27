@@ -1,8 +1,16 @@
 ## BatWatch
 
-Application for reporting bat sightings causing conflicts (such as bat appearances in homes), managing tracking resolution.
+Application for reporting bat sightings causing conflicts (such as bat appearances in homes) and resolution tracking.
 
 The application is built with Spring Boot and uses PostGIS for geospatial data storage.
+
+> **Note - Not affiliated with WildernessRC BatWatch**
+>
+> This project was inspired by the WildernessRC BatWatch project and the Wilderness Research reporting tool:
+> - WildernessRC BatWatch: https://wildernessrc.ro/batwatch/
+> - Wilderness Research reporting tool: https://wilderness-research.org/
+>
+> This repository is a personal learning / university project and is not affiliated with, endorsed by, or intended to compete with the original BatWatch initiative. If you find the original project useful, please consider supporting it!
 
 ## Development
 
