@@ -12,6 +12,10 @@ The application is built with Spring Boot and uses PostGIS for geospatial data s
 >
 > This repository is a personal learning / university project and is not affiliated with, endorsed by, or intended to compete with the original BatWatch initiative. If you find the original project useful, please consider supporting it!
 
+### OpenAPI documentation
+
+The application's OpenAPI (Swagger) documentation is published and can be viewed at: https://raduadumitru.github.io/batwatch/
+
 ## Development
 
 Local development can be done using Docker Compose. `docker-compose.yml` defines:
@@ -26,6 +30,8 @@ Local development can be done using Docker Compose. `docker-compose.yml` defines
 This will open debug port 5005 for the Spring Boot application.
 
 Docker setup makes use of `.env` file for configuration, values inside can be modified as needed.
+
+API will be available at `http://localhost:8080` and OpenAPI documentation at `http://localhost:8080/swagger-ui/index.html`.
 
 ### Access database from PgAdmin
 
@@ -44,4 +50,3 @@ Assuming docker containers are running:
 `docker-compose down --volumes`
 
 More on PostGIS https://medium.com/@abiodunstarr/location-based-features-using-postgis-in-a-spring-boot-application-4c8d710d99df
-
